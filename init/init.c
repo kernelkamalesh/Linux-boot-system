@@ -1,11 +1,20 @@
 #include "syscall.h"
+#include "string.h"
+#include "print.h"
+#include "input.h"
 
 void kmain(void)
 {
-    char msg[] = "Hello from my own init!\n";
+char buffer[128];
 
-    write(1, msg, 25);
+while (1)
+{
+    print("mysh> ");
 
-    for (;;)
-        ;
+    long n = input(buffer, sizeof(buffer) - 1);
+
+    buffer[n] = '\0';
+
+    print(buffer);
+}
 }

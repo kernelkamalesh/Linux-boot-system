@@ -2,14 +2,14 @@ CC      = gcc
 AS      = gcc
 LD      = ld
 
-CFLAGS  = -ffreestanding -fno-stack-protector -mno-red-zone -nostdlib -nostartfiles
+CFLAGS  = -ffreestanding -fno-stack-protector -mno-red-zone -nostdlib -nostartfiles -I../include
 ASFLAGS = -c
 LDFLAGS = -T linker.ld
 
 all: init
 
-init: start.o init.o syscall.o
-	$(LD) $(LDFLAGS) -o init start.o init.o syscall.o
+init: start.o init.o syscall.o string.o print.o input.o
+	$(LD) $(LDFLAGS) -o init start.o init.o syscall.o string.o print.o input.o
 
 start.o: start.S
 	$(AS) $(ASFLAGS) start.S -o start.o
@@ -19,6 +19,15 @@ init.o: init.c
 
 syscall.o: syscall.S
 	$(AS) $(ASFLAGS) syscall.S -o syscall.o
+
+string.o:
+	$(CC) $(CFLAGS) -c ../lib/string.c -o string.o
+
+print.o:
+	$(CC) $(CFLAGS) -c ../lib/print.c -o print.o
+
+input.o:
+	$(CC) $(CFLAGS) -c ../lib/input.c -o input.o
 
 clean:
 	rm -f *.o init
