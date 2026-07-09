@@ -1,6 +1,11 @@
+#include "syscall.h"
+
 void kmain(void)
 {
-    while(1){
- 
-    }
+    char msg[] = "Hello from my own init!\n";
+
+    write(1, msg, 25);
+
+    for (;;)
+        ;
 }
