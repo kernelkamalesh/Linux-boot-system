@@ -1,0 +1,5 @@
+#Ignore complied byte files
+*.o
+
+#Ignoring zip files
+*.gz
