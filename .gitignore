@@ -2,4 +2,4 @@
 *.o
 
 #Ignoring zip files
-*.gz
+initramfs.cpio.gz
