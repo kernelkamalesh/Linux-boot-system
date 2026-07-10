@@ -8,8 +8,8 @@ LDFLAGS = -T linker.ld
 
 all: init
 
-init: start.o init.o syscall.o string.o print.o input.o string_compare.o
-	$(LD) $(LDFLAGS) -o init start.o init.o syscall.o string.o print.o input.o string_compare.o
+init: start.o init.o syscall.o string.o print.o input.o string_compare.o strchr.o
+	$(LD) $(LDFLAGS) -o init start.o init.o syscall.o string.o print.o input.o string_compare.o strchr.o
 
 start.o: start.S
 	$(AS) $(ASFLAGS) start.S -o start.o
@@ -31,6 +31,9 @@ input.o:
 
 string_compare.o:
 	$(CC) $(CFLAGS) -c ../lib/string_compare.c -o string_compare.o
+
+strchr.o:
+	$(CC) $(CFLAGS) -c ../lib/strchr.c -o strchr.o
  
 clean:
 	rm -f *.o init
