@@ -26,6 +26,7 @@ while (1)
 
     char *command;
     char *argument;
+    char cwd[256];
 
     parse(buffer, &command, &argument);
 
@@ -37,7 +38,8 @@ while (1)
             "help\n"
             "echo\n"
             "clear\n"
-            "exit\n");
+            "exit\n"
+            "pwd\n");
     }
     else if (strcmp(command,"echo")==0)
     {
@@ -52,6 +54,44 @@ while (1)
     
         print("\033[2J\033[H");
         print("\n");
+    }
+
+    else if (strcmp(command, "exit") == 0)
+    {
+        print("we can't actually exit because we are inside a qemu but can exit the mysh(PID 1)\n");
+        print("exiting...");
+        exit(0);
+    }
+
+    else if (strcmp(command, "pwd") == 0)
+    {
+        if (getcwd(cwd, sizeof(cwd)) >= 0)
+        {
+            print(cwd);
+            print("\n");
+        }
+        else
+        {
+            print("pwd failed\n");
+        }
+    }
+    else if (strcmp(command, "cd") == 0)
+    {
+        long ret;
+
+        if (!argument)
+        {
+            print("Usage: cd <directory>\n");
+        }
+        else
+        {
+            ret = chdir(argument);
+
+            if (ret < 0)
+                print("cd_failed\n");
+            else
+                print("cd_ok\n");
+        }
     }
 
     else
