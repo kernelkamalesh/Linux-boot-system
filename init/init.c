@@ -4,6 +4,7 @@
 #include "input.h"
 #include "string_compare.h"
 #include "strchr.h"
+#include "parser.h"
 
 
 void kmain(void)
@@ -23,9 +24,14 @@ while (1)
 
     buffer[n] = '\0';
 
+    char *command;
+    char *argument;
+
+    parse(buffer, &command, &argument);
+
     char *space = strchr(buffer, ' ');
 
-    if (strcmp(buffer, "help") == 0)
+    if (strcmp(command,"help") == 0)
     {
         print("Available commands\n"
             "help\n"
@@ -33,15 +39,21 @@ while (1)
             "clear\n"
             "exit\n");
     }
-    else if (buffer[0] == 'e' &&
-         buffer[1] == 'c' &&
-         buffer[2] == 'h' &&
-         buffer[3] == 'o' &&
-         buffer[4] == ' ')
+    else if (strcmp(command,"echo")==0)
     {
-    print(space + 1);
-    print("\n");
+        if(argument){
+            print(argument);
+            print("\n");
+        }
     }
+
+    else if (strcmp(command,"clear")==0)
+    {
+    
+        print("\033[2J\033[H");
+        print("\n");
+    }
+
     else
     {
         print("Unknown command\n");
